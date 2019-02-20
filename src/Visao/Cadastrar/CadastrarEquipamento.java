@@ -117,7 +117,7 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("IMAGEM:");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(10, 270, 80, 20);
+        jLabel6.setBounds(20, 270, 70, 20);
 
         jButton3.setBackground(new java.awt.Color(255, 204, 51));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
