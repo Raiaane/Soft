@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 20-Fev-2019 às 19:38
+-- Generation Time: 07-Mar-2019 às 02:06
 -- Versão do servidor: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -44,6 +44,28 @@ INSERT INTO `administrador` (`id_adm`, `usuario`, `senha`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `horario`
+--
+
+CREATE TABLE `horario` (
+  `id` int(11) NOT NULL,
+  `inicio` varchar(10) NOT NULL,
+  `fim` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `horario`
+--
+
+INSERT INTO `horario` (`id`, `inicio`, `fim`) VALUES
+(1, '12:36', '14:30'),
+(2, '  :  ', '  :  '),
+(3, '14:55', '11:20'),
+(4, '11:11', '22:22');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `marca`
 --
 
@@ -51,6 +73,18 @@ CREATE TABLE `marca` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `marca`
+--
+
+INSERT INTO `marca` (`id`, `nome`) VALUES
+(3, 'appleE'),
+(4, 'motorola'),
+(5, 'htc'),
+(6, 'doc'),
+(7, 'moto'),
+(8, 'SONY');
 
 -- --------------------------------------------------------
 
@@ -61,12 +95,19 @@ CREATE TABLE `marca` (
 CREATE TABLE `produto` (
   `id` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
-  `id_tipo` int(50) NOT NULL,
-  `id_marca` int(50) NOT NULL,
+  `id_tipo` int(11) NOT NULL,
+  `id_marca` int(11) NOT NULL,
   `quantidade` varchar(50) NOT NULL,
-  `descricao` varchar(300) NOT NULL,
-  `imagem` varchar(300) NOT NULL
+  `descricao` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `produto`
+--
+
+INSERT INTO `produto` (`id`, `nome`, `id_tipo`, `id_marca`, `quantidade`, `descricao`) VALUES
+(1, 'ihtyiphypty', 2, 1, '33', 'igfjgopjg'),
+(2, 'celu', 3, 2, '11', 'terererr');
 
 -- --------------------------------------------------------
 
@@ -83,6 +124,16 @@ CREATE TABLE `professor` (
   `enderenco` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `professor`
+--
+
+INSERT INTO `professor` (`id`, `nome`, `email`, `cpf`, `telefone`, `enderenco`) VALUES
+(1, 'Galdino', 'galdino@galdino', '98736484648', '888888888', 'rua alto'),
+(2, 'Raiane', 'raiane@raiane', '12345786', '84991621156', 'monsenhor'),
+(4, 'Vitoria', 'vitoria@vitoria', '1234567890', '34567890', 'igdfofgufg'),
+(5, 'geraldo', 'geraldo@ggg.com', '9999999999', '9999999', 'monsenhor');
+
 -- --------------------------------------------------------
 
 --
@@ -95,6 +146,18 @@ CREATE TABLE `tipo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Extraindo dados da tabela `tipo`
+--
+
+INSERT INTO `tipo` (`id`, `nome`) VALUES
+(1, 'celular'),
+(2, 'datashows'),
+(3, 'computadores'),
+(4, 'livros'),
+(5, 'mause'),
+(6, 'APARELHO');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -103,6 +166,12 @@ CREATE TABLE `tipo` (
 --
 ALTER TABLE `administrador`
   ADD PRIMARY KEY (`id_adm`);
+
+--
+-- Indexes for table `horario`
+--
+ALTER TABLE `horario`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `marca`
@@ -136,31 +205,37 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT for table `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `horario`
+--
+ALTER TABLE `horario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `professor`
 --
 ALTER TABLE `professor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tipo`
 --
 ALTER TABLE `tipo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
