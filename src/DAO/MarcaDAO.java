@@ -22,7 +22,7 @@ public class MarcaDAO extends ExecuteSQL {
         super(con);
     }
      //inserir
-    public String InserirCategoria(Marca c){
+    public String InserirMarca(Marca c){
     
     String sql = "insert into marca VALUES(0,?)";
 
@@ -43,7 +43,7 @@ public class MarcaDAO extends ExecuteSQL {
     } 
     //Alterar
     public String Alterar_Marca(Marca c){
-    String sql = "UPDATE marca SET nome=? WHERE idcategoria=?";
+    String sql = "UPDATE marca SET nome=? WHERE id=?";
     
         try {
             PreparedStatement ps = getCon().prepareStatement(sql);
@@ -105,7 +105,7 @@ public class MarcaDAO extends ExecuteSQL {
     
     }
     //Listar
-   public List<Marca> ListarCategoria(){
+   public List<Marca> ListarMarca(){
    String sql = "SELECT * FROM marca";
    List<Marca> lista = new ArrayList<>();
        try {
@@ -152,7 +152,7 @@ public class MarcaDAO extends ExecuteSQL {
    }
    //Excluir
    public List<Marca> ConsultaCodigoMarca(String nome){
-    String sql = "SELECT id FROM marca WHERE nome ='"+nome+"'";
+    String sql = "SELECT * FROM marca WHERE nome ='"+nome+"'";
     List<Marca> lista = new ArrayList<>();
     try {
         PreparedStatement ps = getCon().prepareStatement(sql);
@@ -189,7 +189,7 @@ public class MarcaDAO extends ExecuteSQL {
    
    }
    public List<Marca> Pesquisar_Nome_Marca(String nome){
-        String sql = "select id, nome from marca where nome Like '"+nome+ "%'";
+        String sql = "select * from marca where nome Like '"+nome+ "%'";
          List <Marca> lista = new ArrayList<>();
         
         try{
@@ -219,7 +219,7 @@ public class MarcaDAO extends ExecuteSQL {
     
     }
     public List<Marca> Pesquisar_Cod_Marca(int cod){
-   String sql = "SELECT * FROM categoria WHERE idcategoria ='"+cod+"'";
+   String sql = "SELECT * FROM marca WHERE id ='"+cod+"'";
    List<Marca> lista = new ArrayList<>();
        try {
            PreparedStatement ps = getCon().prepareStatement(sql);
