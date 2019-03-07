@@ -5,6 +5,14 @@
  */
 package Visao.Alterar;
 
+import DAO.Conexao;
+import DAO.horarioDAO;
+import Modelo.horario;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elisson
@@ -18,6 +26,21 @@ public class AlterarHorario extends javax.swing.JFrame {
         initComponents();
         setSize(650, 450);
     }
+    private void InserirDados(int cod){
+        Connection con = Conexao.AbrirConexao();
+        horarioDAO sql = new horarioDAO(con);
+        List<horario> lista = new ArrayList<>();
+        lista = sql.CapturarHorario(cod);
+        
+        for (horario a : lista){
+              codigo.setText(""+a.getCod());
+              ini.setText(a.getInicio());
+              fm.setText(a.getFim());
+              coco.setText(""+a.getCod());
+              
+                          
+        }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,12 +57,15 @@ public class AlterarHorario extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        fm = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        ini = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        codigo = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        coco = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,7 +77,7 @@ public class AlterarHorario extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -63,7 +89,7 @@ public class AlterarHorario extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("INICIO");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(10, 20, 70, 15);
+        jLabel2.setBounds(10, 70, 70, 40);
 
         jButton1.setBackground(new java.awt.Color(204, 255, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -74,28 +100,21 @@ public class AlterarHorario extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("FIM");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(10, 51, 50, 15);
+        jLabel3.setBounds(10, 110, 50, 20);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setText("MATERIAL");
-        jPanel2.add(jLabel5);
-        jLabel5.setBounds(10, 82, 80, 15);
-        jPanel2.add(jTextField3);
-        jTextField3.setBounds(114, 79, 431, 20);
-
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        fm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                fmActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField4);
-        jTextField4.setBounds(114, 48, 430, 20);
+        jPanel2.add(fm);
+        fm.setBounds(70, 110, 430, 20);
 
         jButton2.setBackground(new java.awt.Color(204, 255, 204));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setText("LIMPAR");
         jPanel2.add(jButton2);
-        jButton2.setBounds(80, 160, 100, 23);
+        jButton2.setBounds(50, 160, 100, 23);
 
         jButton3.setBackground(new java.awt.Color(204, 255, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -107,13 +126,36 @@ public class AlterarHorario extends javax.swing.JFrame {
         });
         jPanel2.add(jButton3);
         jButton3.setBounds(240, 160, 110, 23);
-        jPanel2.add(jTextField5);
-        jTextField5.setBounds(118, 20, 430, 20);
+        jPanel2.add(ini);
+        ini.setBounds(70, 80, 430, 20);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Cod:");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(14, 10, 50, 17);
+        jPanel2.add(codigo);
+        codigo.setBounds(60, 10, 90, 20);
+
+        jButton4.setText("OK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4);
+        jButton4.setBounds(160, 10, 47, 20);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setText("Codigo:");
+        jPanel2.add(jLabel7);
+        jLabel7.setBounds(10, 50, 60, 17);
+        jPanel2.add(coco);
+        coco.setBounds(70, 50, 110, 20);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/relo2.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(0, 0, 670, 380);
+        jLabel4.setBounds(0, 0, 670, 230);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,20 +169,67 @@ public class AlterarHorario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void fmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fmActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_fmActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        String nom = ini.getText();
+        String fim = fm.getText();
+        String codi = coco.getText();
+        int code = Integer.parseInt(codigo.getText());
+        if(nom.equalsIgnoreCase("")){
+            JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos","Video Locadora",JOptionPane.WARNING_MESSAGE);
+        }else{
+            Connection con = Conexao.AbrirConexao();
+            horarioDAO sql = new horarioDAO(con);
+            int cod = Integer.parseInt(codi);
+            horario c = new horario();
+            c.setCod(cod);
+            c.setInicio(nom);
+            c.setFim(fim);
+            c.setCod(code);
+            sql.Alterar_Horario(c);
+            codigo.setText("");
+            ini.setText("");
+            Conexao.FecharConexao(con);
+            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String codig = codigo.getText();
+        Connection con = Conexao.AbrirConexao();
+        horarioDAO sql = new horarioDAO(con);
+        int cod;
+
+        if(codig.equals("")){
+            JOptionPane.showMessageDialog(null,"Digite um código para procurar",
+                    "Equipamento",JOptionPane.WARNING_MESSAGE);
+            ini.setText("");
+            fm.setText("");
+            }else{
+            cod = Integer.parseInt(codig);
+            if(sql.Testar_Horario(cod) == false){
+                JOptionPane.showMessageDialog(null,"Classificação não encontrada",
+                        "Cadastro de Livros",JOptionPane.WARNING_MESSAGE);
+                ini.setText("");
+                fm.setText("");
+                Conexao.FecharConexao(con);
+            }else{
+                ini.setText("");
+                fm.setText("");
+                InserirDados(cod);
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,18 +267,21 @@ public class AlterarHorario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField coco;
+    private javax.swing.JTextField codigo;
+    private javax.swing.JTextField fm;
+    private javax.swing.JTextField ini;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

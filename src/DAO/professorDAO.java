@@ -22,7 +22,7 @@ public class professorDAO extends ExecuteSQL{
         super(con);
     }
     
-    public String Inserir_Professor(professor a){
+    public String InserirProfessor(professor a){
         
         String sql = "insert into professor values (0,?,?,?,?,?)";
     
@@ -55,7 +55,7 @@ public class professorDAO extends ExecuteSQL{
     //Listar professor
     
     public List<professor> ListarProfessor(){
-        String sql = "select id, nome, email, cpf, telefone, endereco from professor";
+        String sql = "select * from professor";
         List <professor> lista = new ArrayList<>();
         
         try{
@@ -70,7 +70,7 @@ public class professorDAO extends ExecuteSQL{
                   a.setEmail(rs.getString(3));
                   a.setCpf(rs.getString(4));
                   a.setTelefone(rs.getString(5));
-                  a.setEndereco(rs.getString (6));
+                  a.setEndereco(rs.getString(6));
                   
                   lista.add(a);
                   
@@ -90,7 +90,7 @@ public class professorDAO extends ExecuteSQL{
     //pesquisar professor 
     
     public List<professor> Pesquisar_Nome_Professor(String nome){
-        String sql = "select id, nome, email, cpf, telefone, endereco from professor where nome Like '"+nome+ "%'";
+        String sql = "select * from professor where nome Like '%"+nome+ "%'";
          List <professor> lista = new ArrayList<>();
         
         try{
@@ -105,7 +105,7 @@ public class professorDAO extends ExecuteSQL{
                   a.setEmail(rs.getString(3));
                   a.setCpf(rs.getString(4));
                   a.setTelefone(rs.getString(5));
-                  a.setEndereco(rs.getString (6));
+                  a.setEndereco(rs.getString(6));
                   
                   lista.add(a);
                   
@@ -141,11 +141,11 @@ public class professorDAO extends ExecuteSQL{
            ex.getMessage();   
        }
        return Resultado;
-    }
     
     
+    }    
     //Capturar professor
-    public List<professor> CapturarCliente(int cod){
+    public List<professor> CapturarProfessor(int cod){
     String sql = "SELECT * FROM professor WHERE id = '"+cod+"'";
     List<professor> lista = new ArrayList<>();
         try {
@@ -174,7 +174,7 @@ public class professorDAO extends ExecuteSQL{
     }
        //Alterar
      public String Alterar_Professor(professor c){
-   String sql = "UPDATE professor SET Nome = ?, email=?, cpf=?, telefone=?, endereco=?  WHERE id = ?";
+   String sql = "UPDATE professor SET Nome = ?, email = ?, cpf = ?, telefone = ?, endereco = ?  WHERE id = ?";
    
        try {
            PreparedStatement ps = getCon().prepareStatement(sql);
@@ -184,8 +184,7 @@ public class professorDAO extends ExecuteSQL{
                     ps.setString(3,c.getCpf());
                     ps.setString(4,c.getTelefone());
                     ps.setString(5,c.getEndereco());
-                    ps.setString(6,c.getTelefone());
-                    ps.setInt(11,c.getCod());
+                    ps.setInt(6,c.getCod());
            
            if (ps.executeUpdate() > 0) {
                return "Professor Atualizado Com Sucesso";
@@ -223,37 +222,64 @@ public class professorDAO extends ExecuteSQL{
    }
    
    //Consultar
-   public List<professor> Pesquisar_Cod_Professor(int cod){
-   String sql = "SELECT * FROM professor WHERE id ='"+cod+"'";
-   List<professor> lista = new ArrayList<>();
-       try {
-           PreparedStatement ps = getCon().prepareStatement(sql);
-           ResultSet rs = ps.executeQuery();
-           
-           if(rs!=null){
-               while (rs.next()) {                   
-                professor a = new professor();
-                a.setCod(rs.getInt(1));
-                a.setNome(rs.getString(2));
-                a.setEmail(rs.getString(3));
-                a.setCpf(rs.getString(4));
-                a.setTelefone(rs.getString(5));
-                a.setEmail(rs.getString (6));
-                a.setEndereco(rs.getString (7));
-                lista.add(a);
-                
-               }   
-               return lista;
-           }else{
-           return null;
-           }
-       }catch (SQLException e) {
+  public List<professor> Pesquisar_Cod_Professor(int Cod){
+        String sql = "select * from professor where id Like '%"+Cod+ "%'";
+         List <professor> lista = new ArrayList<>();
+        
+        try{
+          PreparedStatement ps = getCon().prepareStatement(sql);
+          ResultSet rs = ps.executeQuery();
+          
+          if(rs != null){
+              while (rs.next()){
+                  professor a = new professor();
+                  a.setCod(rs.getInt(1));
+                  a.setNome(rs.getString(2));
+                  a.setEmail(rs.getString(3));
+                  a.setCpf(rs.getString(4));
+                  a.setTelefone(rs.getString(5));
+                  a.setEndereco(rs.getString(6));
+                  
+                  lista.add(a);
+                  
+              }
+              return lista;
+          }else{
+              return null;
+          }
+          
+ 
+        }catch (SQLException e){
+            return null;
+        
+        }
+    
+    }
+  
+  public List<professor> ConsultaCodigProfessor(String nome){
+    String sql = "SELECT id FROM professor WHERE nome ='"+nome+"'";
+    List<professor> lista = new ArrayList<>();
+    try {
+        PreparedStatement ps = getCon().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        if(rs!=null){
+            while (rs.next()) {                
+            professor c = new professor();
+            c.setCod(rs.getInt(1));
+            lista.add(c);            
+            }
+        }else{
+        return null;
+        }        
+        return lista;
+       } catch (SQLException ex) {
        return null;
        }
+    
    }
    //consultar
-   public List<professor> ConsultaCodigoProfessor(String nome){
-   String sql = "SELECT idcliente FROM professor WHERE nome = '"+nome+"'";
+   /*public List<professor> ConsultaCodigoProfessor(int cod){
+   String sql = "select * from professor where id Like '%"+cod+ "%'";
    List<professor> lista = new ArrayList<>();
    
        try {
@@ -262,8 +288,14 @@ public class professorDAO extends ExecuteSQL{
            
            if(rs!= null){
                 while(rs.next()){
-                    professor c = new professor();
-                    c.setCod(rs.getInt(1));
+                  professor c = new professor();
+                c.setCod(rs.getInt(1));
+                c.setNome(rs.getString(2));
+                c.setEmail(rs.getString(3));
+                c.setCpf(rs.getString(4));
+                c.setTelefone(rs.getString(5));
+                c.setEmail(rs.getString (6));
+                c.setEndereco(rs.getString (7));
                     lista.add(c);
                 }
                 return lista;            
@@ -275,8 +307,9 @@ public class professorDAO extends ExecuteSQL{
        }
    
    }
+*/
    //Excluir
-   public String ExcluirCliente(professor f){
+   public String ExcluirProfessor(professor f){
    String sql = "DELETE FROM professor WHERE id = ? AND Nome = ?";
        try {
            PreparedStatement ps = getCon().prepareStatement(sql);

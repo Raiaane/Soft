@@ -16,7 +16,7 @@ public class equipamento {
     private int id_marca;
     private String quantidade;
     private String descricao;
-    private String imagem;
+    
 
     public int getCod() {
         return cod;
@@ -65,14 +65,5 @@ public class equipamento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-    
 
 }

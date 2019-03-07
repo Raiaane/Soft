@@ -5,6 +5,25 @@
  */
 package Visao.Cadastrar;
 
+import DAO.Conexao;
+import DAO.MarcaDAO;
+import DAO.TipoDAO;
+import DAO.equipamentoDAO;
+import Modelo.Marca;
+import Modelo.Tipo;
+import Modelo.equipamento;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elisson
@@ -17,6 +36,34 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
     public CadastrarEquipamento() {
         initComponents();
          setSize(650, 450);
+         AtualizarCamboMarca();
+         AtualizarCamboTipo();
+         
+    }
+    private void AtualizarCamboMarca(){
+        Connection con = Conexao.AbrirConexao();
+        MarcaDAO sql = new MarcaDAO(con);
+        List<Marca> lista = new ArrayList<>();
+        lista = sql.ListarComboMarca();
+        jComboBox2.addItem("");
+        
+        for (Marca b : lista){
+            jComboBox2.addItem(b.getNome());
+        }
+        Conexao.FecharConexao(con);
+    }
+    
+     private void AtualizarCamboTipo(){
+        Connection con = Conexao.AbrirConexao();
+        TipoDAO sql = new TipoDAO(con);
+        List<Tipo> lista = new ArrayList<>();
+        lista = sql.ListarTipo();
+        jComboBox1.addItem("");
+        
+        for (Tipo b : lista){
+            jComboBox1.addItem(b.getNome());
+        }
+        Conexao.FecharConexao(con);
     }
 
     /**
@@ -28,31 +75,37 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        quant = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        nome = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        tipo = new javax.swing.JTextField();
+        marca = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        desc = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+
+        jLabel10.setText("jLabel10");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel1.setText("                                     CADASTAR EQUIPAMENTOS");
+        jLabel1.setText("                                     CADASTRAR EQUIPAMENTOS");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,28 +124,41 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 626, 70);
+
         jPanel2.setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("TIPO DO EQUIPAMENTO:");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(20, 90, 150, 15);
+        jLabel2.setBounds(20, 100, 150, 15);
 
         jButton1.setBackground(new java.awt.Color(255, 204, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("SAIR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton1);
         jButton1.setBounds(500, 311, 85, 34);
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jComboBox1);
-        jComboBox1.setBounds(190, 80, 172, 29);
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(190, 180, 172, 28);
+        jComboBox1.setBounds(230, 90, 172, 29);
+        jPanel2.add(quant);
+        quant.setBounds(190, 180, 172, 28);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setText("NOME DO EQUIPAMENTO:");
+        jLabel3.setText("Cod:");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(20, 40, 160, 15);
+        jLabel3.setBounds(20, 20, 30, 15);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("QUANTIDADE:");
@@ -103,10 +169,8 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
         jLabel5.setText("MARCA:");
         jPanel2.add(jLabel5);
         jLabel5.setBounds(20, 140, 70, 15);
-        jPanel2.add(jTextField2);
-        jTextField2.setBounds(190, 220, 172, 28);
-        jPanel2.add(jTextField4);
-        jTextField4.setBounds(190, 30, 172, 28);
+        jPanel2.add(nome);
+        nome.setBounds(190, 50, 172, 28);
 
         jButton2.setBackground(new java.awt.Color(255, 204, 0));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -114,51 +178,140 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
         jPanel2.add(jButton2);
         jButton2.setBounds(48, 311, 105, 34);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("IMAGEM:");
-        jPanel2.add(jLabel6);
-        jLabel6.setBounds(20, 270, 70, 20);
-
         jButton3.setBackground(new java.awt.Color(255, 204, 51));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton3.setText("CADASTRAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3);
         jButton3.setBounds(270, 311, 118, 34);
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(440, 50, 150, 200);
 
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jComboBox2);
-        jComboBox2.setBounds(190, 130, 172, 29);
+        jComboBox2.setBounds(230, 130, 172, 29);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("DESCRIÇÃO:");
         jPanel2.add(jLabel9);
         jLabel9.setBounds(19, 232, 90, 15);
+        jPanel2.add(tipo);
+        tipo.setBounds(190, 90, 30, 30);
+        jPanel2.add(marca);
+        marca.setBounds(190, 130, 30, 30);
 
-        jPanel2.add(jComboBox3);
-        jComboBox3.setBounds(90, 270, 320, 20);
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fundo5.jpg"))); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setText("NOME DO EQUIPAMENTO:");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(0, -10, 630, 420);
+        jLabel7.setBounds(20, 50, 160, 15);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
-        );
+        desc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descActionPerformed(evt);
+            }
+        });
+        jPanel2.add(desc);
+        desc.setBounds(190, 220, 172, 28);
+
+        jTextField1.setEditable(false);
+        jPanel2.add(jTextField1);
+        jTextField1.setBounds(60, 20, 80, 20);
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fundo5.jpg"))); // NOI18N
+        jLabel11.setText("jLabel11");
+        jPanel2.add(jLabel11);
+        jLabel11.setBounds(10, 14, 640, 360);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 66, 650, 370);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    Connection con = Conexao.AbrirConexao();
+    MarcaDAO sql = new MarcaDAO(con);
+    List<Marca> lista = new ArrayList<>();
+    String nome = jComboBox1.getSelectedItem().toString();
+    lista = sql.ConsultaCodigoMarca(nome);
+    
+    for (Marca b: lista){
+        int a = b.getCod();
+        marca.setText("" + a);
+    }
+    Conexao.FecharConexao(con);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    Connection con = Conexao.AbrirConexao();
+    TipoDAO sql = new TipoDAO(con);
+    List<Tipo> lista = new ArrayList<>();
+    String nome = jComboBox2.getSelectedItem().toString();
+    lista = sql.ConsultaCodigoTipo(nome);
+    
+    for (Tipo b: lista){
+        int a = b.getCod();
+        tipo.setText("" + a);
+    }
+    Conexao.FecharConexao(con);
+ 
+
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String no = nome.getText();
+        String ti = tipo.getText();
+        String ma = marca.getText();
+        String quanti = quant.getText();
+        String descri = desc.getText();
+       
+        if (ti.equals("") || ma.equals("") || quanti.equals("") 
+                || descri.equals("")) {
+            JOptionPane.showMessageDialog(null, "Nenhum campo pode estar vazio", 
+                    "", JOptionPane.WARNING_MESSAGE);
+        }else{
+            Connection con = Conexao.AbrirConexao();
+            equipamentoDAO sql = new equipamentoDAO(con);
+            int tip  = Integer.parseInt(ti);
+            int mar = Integer.parseInt(ma);
+            equipamento a = new equipamento();
+            
+            a.setNome(no);
+            a.setId_tipo(tip);
+            a.setId_marca(mar);
+            a.setQuantidade(quanti);
+            a.setDescricao(descri);
+           
+           
+            
+            sql.Inserir_equipamento(a);
+            Conexao.FecharConexao(con);
+            
+           nome.setText("");
+           tipo.setText("");
+           marca.setText("");
+           quant.setText("");
+          
+            
+            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!",
+                    "equipamento", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void descActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,25 +349,28 @@ public class CadastrarEquipamento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField desc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField marca;
+    private javax.swing.JTextField nome;
+    private javax.swing.JTextField quant;
+    private javax.swing.JTextField tipo;
     // End of variables declaration//GEN-END:variables
 }

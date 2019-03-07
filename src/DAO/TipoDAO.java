@@ -22,7 +22,7 @@ public class TipoDAO extends ExecuteSQL{
         super(con);
     }
      //inserir
-    public String Inserir_Tipo(Tipo c){
+    public String InserirTipo(Tipo c){
     
     String sql = "insert into tipo VALUES(0,?)";
 
@@ -152,7 +152,7 @@ public class TipoDAO extends ExecuteSQL{
    }
    //Excluir
    public List<Tipo> ConsultaCodigoTipo(String nome){
-    String sql = "SELECT id FROM tipo WHERE nome ='"+nome+"'";
+    String sql = "SELECT * FROM tipo WHERE nome ='"+nome+"'";
     List<Tipo> lista = new ArrayList<>();
     try {
         PreparedStatement ps = getCon().prepareStatement(sql);
@@ -161,6 +161,7 @@ public class TipoDAO extends ExecuteSQL{
             while (rs.next()) {                
             Tipo c = new Tipo();
             c.setCod(rs.getInt(1));
+            c.setNome(rs.getString(2));
             lista.add(c);            
             }
         }else{
@@ -173,7 +174,7 @@ public class TipoDAO extends ExecuteSQL{
     
    }
    //Excluir
-   public String ExcluirCategoria(Tipo c){
+   public String ExcluirTipo(Tipo c){
    String sql = "DELETE FROM tipo WHERE id = ?";
        try {
            PreparedStatement ps = getCon().prepareStatement(sql);

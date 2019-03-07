@@ -5,6 +5,14 @@
  */
 package Visao.Excluir;
 
+import DAO.Conexao;
+import DAO.equipamentoDAO;
+import Modelo.equipamento;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elisson
@@ -16,7 +24,25 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
      */
     public ExcluirEquipamento() {
         initComponents();
-        setSize(650, 450);
+        setSize(560, 360);
+        AtualizaCombo();
+    }
+    private void AtualizaCombo(){
+        
+        Connection con = Conexao.AbrirConexao();
+       equipamentoDAO sql = new equipamentoDAO(con);
+        List<equipamento> lista = new ArrayList<>();
+        lista =  sql.ListarComboEquipamento();
+        nome.addItem("");
+        
+        for(equipamento b :lista){
+        
+            nome.addItem(b.getNome());
+        
+        }
+    
+        Conexao.FecharConexao(con);
+    
     }
 
     /**
@@ -31,13 +57,12 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        nome = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        codi = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,7 +74,7 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -58,37 +83,31 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
 
         jPanel2.setLayout(null);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("TIPO DO EQUIPAMENTO");
-        jPanel2.add(jLabel2);
-        jLabel2.setBounds(39, 19, 143, 15);
-
         jButton1.setBackground(new java.awt.Color(102, 255, 255));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("SAIR");
         jPanel2.add(jButton1);
         jButton1.setBounds(375, 152, 85, 23);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox1);
-        jComboBox1.setBounds(260, 17, 172, 20);
+        nome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomeActionPerformed(evt);
+            }
+        });
+        jPanel2.add(nome);
+        nome.setBounds(250, 60, 172, 20);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("NOME DO EQUIPAMENTO");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(38, 54, 149, 15);
-
-        jTextField4.setText("jTextField1");
-        jPanel2.add(jTextField4);
-        jTextField4.setBounds(260, 54, 172, 20);
+        jLabel3.setBounds(20, 55, 149, 30);
 
         jButton2.setBackground(new java.awt.Color(153, 255, 255));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setText("LIMPAR");
         jPanel2.add(jButton2);
-        jButton2.setBounds(113, 152, 92, 23);
+        jButton2.setBounds(100, 150, 92, 23);
 
         jButton3.setBackground(new java.awt.Color(102, 255, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -99,12 +118,14 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jButton3);
-        jButton3.setBounds(251, 152, 106, 23);
+        jButton3.setBounds(230, 150, 106, 23);
+        jPanel2.add(codi);
+        codi.setBounds(180, 60, 60, 20);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ue.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(0, -10, 680, 380);
+        jLabel4.setBounds(0, -10, 550, 200);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,15 +139,50 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        String cod = codi.getText();
+        String nom = nome.getSelectedItem().toString();
+
+        Connection con = Conexao.AbrirConexao();
+        equipamentoDAO sql = new equipamentoDAO(con);
+        equipamento c = new equipamento();
+
+        if(nom.equals("")){
+            JOptionPane.showMessageDialog(null,"Nenhum Nome selecionado", "equipamento",JOptionPane.WARNING_MESSAGE);
+        }else{
+            int b = JOptionPane.showConfirmDialog(null,"Deseja realmene excluir \n " + "("+cod+") ("+nom+")","Equipamento",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            if(b==0){
+                int codigo = Integer.parseInt(cod);
+                c.setCod(codigo);
+                c.setNome(nom);
+                sql.ExcluirEquipamento(c);
+                Conexao.FecharConexao(con);
+                dispose();
+            }
+
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
+        Connection con = Conexao.AbrirConexao();
+        equipamentoDAO sql = new equipamentoDAO(con);
+        List<equipamento> lista = new ArrayList<>();
+        String nom = nome.getSelectedItem().toString();
+        
+        lista = sql.ConsultaCodigoEquipamento(nom);
+
+        for(equipamento b : lista){
+            int a = b.getCod();
+            codi.setText(""+ a);
+        }
+        Conexao.FecharConexao(con);
+    }//GEN-LAST:event_nomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,16 +220,15 @@ public class ExcluirEquipamento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField codi;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JComboBox<String> nome;
     // End of variables declaration//GEN-END:variables
 }

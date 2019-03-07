@@ -5,6 +5,12 @@
  */
 package Visao.Cadastrar;
 
+import DAO.Conexao;
+import DAO.horarioDAO;
+import Modelo.horario;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elisson
@@ -16,7 +22,7 @@ public class CadastrarHorario extends javax.swing.JFrame {
      */
     public CadastrarHorario() {
         initComponents();
-         setSize(650, 450);
+         setSize(655, 355);
     }
 
     /**
@@ -33,17 +39,13 @@ public class CadastrarHorario extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        ini = new javax.swing.JFormattedTextField();
+        fm = new javax.swing.JFormattedTextField();
         jButton3 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -55,7 +57,7 @@ public class CadastrarHorario extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -67,69 +69,65 @@ public class CadastrarHorario extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("INICIO");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(10, 25, 53, 17);
+        jLabel2.setBounds(10, 80, 53, 30);
 
         jButton1.setBackground(new java.awt.Color(255, 204, 153));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setText("SAIR");
         jPanel2.add(jButton1);
-        jButton1.setBounds(477, 280, 110, 40);
+        jButton1.setBounds(450, 220, 120, 40);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("CODIGO");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(10, 40, 60, 20);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("FIM");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(10, 54, 27, 17);
+        jLabel3.setBounds(10, 130, 50, 30);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("MATERIAL");
-        jPanel2.add(jLabel5);
-        jLabel5.setBounds(10, 90, 75, 17);
-
+        jTextField3.setEditable(false);
         jTextField3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.add(jTextField3);
-        jTextField3.setBounds(103, 23, 464, 25);
+        jTextField3.setBounds(80, 40, 80, 25);
 
         jButton2.setBackground(new java.awt.Color(204, 255, 255));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("LIMPAR");
         jPanel2.add(jButton2);
-        jButton2.setBounds(73, 280, 100, 40);
+        jButton2.setBounds(60, 220, 100, 40);
+
+        try {
+            ini.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel2.add(ini);
+        ini.setBounds(80, 80, 460, 30);
+
+        try {
+            fm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel2.add(fm);
+        fm.setBounds(80, 130, 460, 30);
 
         jButton3.setBackground(new java.awt.Color(204, 102, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setText("CADASTRAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3);
-        jButton3.setBounds(264, 279, 130, 40);
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("jLabel7");
-        jPanel2.add(jLabel7);
-        jLabel7.setBounds(10, 140, 50, 17);
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("jLabel7");
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(10, 202, 50, 17);
-
-        jTextField6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(jTextField6);
-        jTextField6.setBounds(103, 138, 464, 25);
-
-        jTextField7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(jTextField7);
-        jTextField7.setBounds(103, 54, 464, 25);
-
-        jTextField8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(jTextField8);
-        jTextField8.setBounds(103, 95, 464, 25);
-
-        jTextField9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(jTextField9);
-        jTextField9.setBounds(103, 200, 464, 25);
+        jButton3.setBounds(240, 220, 130, 40);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/clock.jpg"))); // NOI18N
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(0, 0, 690, 410);
+        jLabel4.setBounds(0, 0, 680, 280);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,11 +141,46 @@ public class CadastrarHorario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String no = ini.getText();
+          String em = fm.getText();
+        
+         
+          if(no.equals("") || em.equals("")){
+              JOptionPane.showMessageDialog(null, "Nenhum campo pode estar vazio" , "Equipamento" , 
+                      JOptionPane.WARNING_MESSAGE);
+          } else{
+             Connection con = Conexao.AbrirConexao();
+             horarioDAO sql = new horarioDAO(con);
+             horario a = new horario();
+              
+              
+              a.setInicio(no);
+              a.setFim(em);
+             
+            
+              
+              
+              sql.InserirHorario(a);
+              Conexao.FecharConexao(con);
+              
+              
+              ini.setText("");
+              fm.setText("");
+              
+              
+              
+              JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso" , "Video Locadora" , 
+              JOptionPane.INFORMATION_MESSAGE);
+              dispose();
+          }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,6 +219,8 @@ public class CadastrarHorario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField fm;
+    private javax.swing.JFormattedTextField ini;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -193,15 +228,9 @@ public class CadastrarHorario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 }

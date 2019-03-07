@@ -5,6 +5,12 @@
  */
 package Visao.Cadastrar;
 
+import DAO.Conexao;
+import DAO.professorDAO;
+import Modelo.professor;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elisson
@@ -35,17 +41,19 @@ public class CadastrarProfessor extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        end = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        cpf = new javax.swing.JTextField();
+        telef = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        nome = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -79,46 +87,46 @@ public class CadastrarProfessor extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("NOME DO PROFESSOR");
+        jLabel2.setText("CODIGO:");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(10, 38, 158, 17);
+        jLabel2.setBounds(10, 20, 158, 17);
 
         jButton1.setBackground(new java.awt.Color(102, 204, 0));
         jButton1.setText("SAIR");
         jPanel2.add(jButton1);
         jButton1.setBounds(420, 290, 130, 39);
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(200, 190, 400, 30);
+        jPanel2.add(end);
+        end.setBounds(200, 220, 400, 30);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("EMAIL DO PROFESSOR");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(10, 76, 161, 17);
+        jLabel3.setBounds(10, 90, 161, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("CPF DO PROFESSOR");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(10, 152, 142, 17);
+        jLabel4.setBounds(10, 180, 142, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("TELEFONE DO PROFESSOR");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(10, 114, 189, 17);
-        jPanel2.add(jTextField2);
-        jTextField2.setBounds(200, 152, 400, 30);
-        jPanel2.add(jTextField3);
-        jTextField3.setBounds(203, 114, 400, 30);
+        jLabel5.setBounds(0, 130, 189, 17);
+        jPanel2.add(cpf);
+        cpf.setBounds(200, 170, 400, 30);
+        jPanel2.add(telef);
+        telef.setBounds(200, 120, 400, 30);
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField4);
-        jTextField4.setBounds(203, 76, 397, 30);
+        jPanel2.add(email);
+        email.setBounds(200, 80, 397, 30);
 
         jButton2.setBackground(new java.awt.Color(153, 153, 255));
         jButton2.setText("LIMPAR");
@@ -129,14 +137,29 @@ public class CadastrarProfessor extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("ENDEREÇO");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(10, 190, 88, 20);
+        jLabel6.setBounds(10, 230, 88, 20);
 
         jButton3.setBackground(new java.awt.Color(255, 51, 0));
         jButton3.setText("CADASTRAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3);
         jButton3.setBounds(240, 290, 120, 39);
-        jPanel2.add(jTextField5);
-        jTextField5.setBounds(203, 38, 397, 30);
+        jPanel2.add(nome);
+        nome.setBounds(200, 40, 397, 30);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("NOME DO PROFESSOR");
+        jPanel2.add(jLabel9);
+        jLabel9.setBounds(10, 50, 158, 20);
+
+        jTextField1.setEditable(false);
+        jPanel2.add(jTextField1);
+        jTextField1.setBounds(80, 20, 110, 20);
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fundo.jpg"))); // NOI18N
         jPanel2.add(jLabel8);
@@ -190,9 +213,50 @@ public class CadastrarProfessor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+          String no = nome.getText();
+          String em = email.getText();
+          String tele = telef.getText();
+          String cp = cpf.getText();
+          String ende = end.getText();
+         
+          if(no.equals("") || em.equals("") || tele.equals("") || cp.equals("") || ende.equals("")){
+              JOptionPane.showMessageDialog(null, "Nenhum campo pode estar vazio" , "Equipamento" , 
+                      JOptionPane.WARNING_MESSAGE);
+          } else{
+             Connection con = Conexao.AbrirConexao();
+             professorDAO sql = new professorDAO(con);
+             professor a = new professor();
+              
+              
+              a.setNome(no);
+              a.setEmail(em);
+              a.setTelefone(tele);
+              a.setCpf(cp);
+              a.setEndereco(ende);
+            
+              
+              
+              sql.InserirProfessor(a);
+              Conexao.FecharConexao(con);
+              
+              
+              nome.setText("");
+              cpf.setText("");
+              telef.setText("");
+              end.setText("");
+              email.setText("");
+              
+              
+              JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso" , "Video Locadora" , 
+               JOptionPane.INFORMATION_MESSAGE);
+              dispose();
+          }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,6 +294,9 @@ public class CadastrarProfessor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField cpf;
+    private javax.swing.JTextField email;
+    private javax.swing.JTextField end;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -242,14 +309,13 @@ public class CadastrarProfessor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField nome;
+    private javax.swing.JTextField telef;
     // End of variables declaration//GEN-END:variables
 }

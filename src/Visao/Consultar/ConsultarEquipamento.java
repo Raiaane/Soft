@@ -5,6 +5,14 @@
  */
 package Visao.Consultar;
 
+import DAO.Conexao;
+import DAO.equipamentoDAO;
+import Modelo.equipamento;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Elisson
@@ -17,6 +25,74 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
     public ConsultarEquipamento() {
         initComponents();
         setSize(650, 450);
+        AtualizaTable();
+    }
+    private void AtualizaTable(){
+        Connection con = Conexao.AbrirConexao();
+        equipamentoDAO sql = new equipamentoDAO(con);
+        List<equipamento> lista = new ArrayList<>();
+        lista =  sql.ListarEquipamento();
+        DefaultTableModel tbm = (DefaultTableModel) jTable1.getModel();
+        while (tbm.getRowCount() > 0){
+            tbm.removeRow(0);
+    }
+         int i = 0;
+        for(equipamento tab : lista){
+            tbm.addRow(new String [i]);
+            jTable1.setValueAt(tab.getCod(), i, 0);
+            jTable1.setValueAt(tab.getNome(), i, 1);
+            jTable1.setValueAt(tab.getId_tipo(), i, 2);
+            jTable1.setValueAt(tab.getId_marca(), i, 3);
+            jTable1.setValueAt(tab.getQuantidade(), i, 4);
+            jTable1.setValueAt(tab.getDescricao(), i, 5);
+            i++;    
+        }
+        Conexao.FecharConexao(con);
+  }
+   
+  private void AtualizaNome(){
+        Connection con = Conexao.AbrirConexao();
+        equipamentoDAO sql = new equipamentoDAO(con);
+        List<equipamento> lista = new ArrayList<>();
+        lista =  sql.Listar_Nome_Equipamento(nome.getText());
+        DefaultTableModel tbm = (DefaultTableModel) jTable1.getModel();
+        while (tbm.getRowCount() > 0){
+            tbm.removeRow(0);
+        }
+         int i = 0;
+        for(equipamento tab : lista){
+            tbm.addRow(new String [i]);
+            jTable1.setValueAt(tab.getCod(), i, 0);
+            jTable1.setValueAt(tab.getNome(), i, 1);
+            jTable1.setValueAt(tab.getId_tipo(), i, 2);
+            jTable1.setValueAt(tab.getId_marca(), i, 3);
+            jTable1.setValueAt(tab.getQuantidade(), i, 4);
+            jTable1.setValueAt(tab.getDescricao(), i, 5);
+            i++;    
+        }
+        Conexao.FecharConexao(con);
+  }
+  private void AtualizaCod(){
+        Connection con = Conexao.AbrirConexao();
+        equipamentoDAO sql = new equipamentoDAO(con);
+        List<equipamento> lista = new ArrayList<>();
+        lista =  sql.Listar_Codigo_Equipamento( Integer.parseInt(codi.getText()));
+        DefaultTableModel tbm = (DefaultTableModel) jTable1.getModel();
+        while (tbm.getRowCount() > 0){
+            tbm.removeRow(0);
+        }
+        int i = 0;
+        for(equipamento tab : lista){
+             tbm.addRow(new String [i]);
+            jTable1.setValueAt(tab.getCod(), i, 0);
+            jTable1.setValueAt(tab.getNome(), i, 1);
+            jTable1.setValueAt(tab.getId_tipo(), i, 2);
+            jTable1.setValueAt(tab.getId_marca(), i, 3);
+            jTable1.setValueAt(tab.getQuantidade(), i, 4);
+            jTable1.setValueAt(tab.getDescricao(), i, 5);
+            i++;
+        }
+        Conexao.FecharConexao(con);
     }
 
     /**
@@ -30,16 +106,17 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        nome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        codi = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -48,9 +125,6 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("CONSULTAR EQUIPAMENTO");
 
-        jButton1.setBackground(new java.awt.Color(255, 102, 102));
-        jButton1.setText("TODOS");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -58,17 +132,13 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(277, 277, 277)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(112, 112, 112))
+                .addContainerGap(359, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addComponent(jButton1))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -77,49 +147,83 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Id_Tipo", "Id_Marca", "Quantidade", "Descrição"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(30, 140, 710, 106);
+        jScrollPane1.setBounds(20, 150, 710, 106);
 
         jPanel2.setLayout(null);
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 331, 0, 0);
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(190, 80, 140, 20);
+        getContentPane().add(nome);
+        nome.setBounds(210, 90, 140, 20);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("PESQUISAR POR CODIGO:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(410, 80, 160, 20);
+        jLabel2.setBounds(60, 60, 160, 20);
 
         jButton2.setBackground(new java.awt.Color(255, 0, 102));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("OK");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2);
-        jButton2.setBounds(340, 80, 47, 23);
+        jButton2.setBounds(360, 90, 47, 23);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("PESQUISAR POR NOME");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(40, 80, 140, 20);
-        getContentPane().add(jTextField3);
-        jTextField3.setBounds(580, 80, 80, 20);
+        jLabel4.setBounds(60, 90, 140, 20);
+        getContentPane().add(codi);
+        codi.setBounds(220, 60, 80, 20);
 
         jButton3.setBackground(new java.awt.Color(255, 0, 102));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setText("OK");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3);
-        jButton3.setBounds(670, 80, 50, 20);
+        jButton3.setBounds(310, 60, 50, 20);
+
+        jButton1.setBackground(new java.awt.Color(255, 102, 102));
+        jButton1.setText("TODOS");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(610, 70, 67, 23);
+
+        jButton4.setText("SAIR");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4);
+        jButton4.setBounds(610, 290, 110, 23);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/scol.jpg"))); // NOI18N
         getContentPane().add(jLabel5);
@@ -127,6 +231,22 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        AtualizaCod();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       AtualizaNome();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       AtualizaTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,9 +284,11 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField codi;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -175,7 +297,6 @@ public class ConsultarEquipamento extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField nome;
     // End of variables declaration//GEN-END:variables
 }
