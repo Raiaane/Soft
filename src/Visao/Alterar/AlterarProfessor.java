@@ -5,6 +5,14 @@
  */
 package Visao.Alterar;
 
+import DAO.Conexao;
+import DAO.professorDAO;
+import Modelo.professor;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elisson
@@ -18,6 +26,25 @@ public class AlterarProfessor extends javax.swing.JFrame {
         initComponents();
         setSize(650, 450);
     }
+    private void InserirDados(int cod){
+        Connection con = Conexao.AbrirConexao();
+        professorDAO sql = new professorDAO(con);
+        List<professor> lista = new ArrayList<>();
+        lista = sql.CapturarProfessor(cod);
+        
+        for (professor a : lista){
+
+              coco.setText(""+a.getCod());
+              coddi.setText(""+a.getCod());
+              nome.setText(a.getNome());
+              email.setText(a.getEmail());
+              cpf.setText(a.getCpf());
+              telef.setText(""+a.getTelefone());
+              end.setText(a.getEndereco());
+              
+        }
+     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,17 +60,22 @@ public class AlterarProfessor extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        end = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        nome = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        coddi = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        coco = new javax.swing.JTextField();
+        cpf = new javax.swing.JFormattedTextField();
+        telef = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -67,42 +99,38 @@ public class AlterarProfessor extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("NOME DO PROFESSOR");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(10, 19, 134, 15);
+        jLabel2.setBounds(10, 45, 134, 30);
 
         jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("SAIR");
         jPanel2.add(jButton1);
         jButton1.setBounds(404, 221, 83, 40);
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(171, 141, 281, 20);
+        jPanel2.add(end);
+        end.setBounds(170, 170, 281, 20);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("EMAIL DO PROFESSOR");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(10, 50, 138, 15);
+        jLabel3.setBounds(10, 75, 138, 30);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("CPF DO PROFESSOR");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(10, 112, 121, 15);
+        jLabel4.setBounds(10, 140, 121, 20);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("TELEFONE DO PROFESSOR");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(10, 81, 157, 15);
-        jPanel2.add(jTextField2);
-        jTextField2.setBounds(171, 110, 281, 20);
-        jPanel2.add(jTextField3);
-        jTextField3.setBounds(171, 79, 281, 20);
+        jLabel5.setBounds(10, 110, 157, 20);
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField4);
-        jTextField4.setBounds(171, 48, 281, 20);
+        jPanel2.add(email);
+        email.setBounds(170, 80, 281, 20);
 
         jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -113,19 +141,64 @@ public class AlterarProfessor extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("ENDEREÇO");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(10, 143, 64, 15);
+        jLabel6.setBounds(10, 170, 64, 15);
 
         jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton3.setText("ALTERAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3);
         jButton3.setBounds(251, 221, 98, 40);
-        jPanel2.add(jTextField5);
-        jTextField5.setBounds(171, 17, 281, 20);
+        jPanel2.add(nome);
+        nome.setBounds(170, 50, 281, 20);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel8.setText("Cod:");
+        jPanel2.add(jLabel8);
+        jLabel8.setBounds(10, 20, 40, 20);
+        jPanel2.add(coddi);
+        coddi.setBounds(50, 20, 60, 20);
+
+        jButton4.setText("OK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4);
+        jButton4.setBounds(120, 20, 47, 23);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel9.setText("Codigo:");
+        jPanel2.add(jLabel9);
+        jLabel9.setBounds(210, 20, 50, 20);
+        jPanel2.add(coco);
+        coco.setBounds(270, 20, 110, 20);
+
+        try {
+            cpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel2.add(cpf);
+        cpf.setBounds(170, 140, 280, 20);
+
+        try {
+            telef.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel2.add(telef);
+        telef.setBounds(170, 110, 280, 20);
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/prof2.jpg"))); // NOI18N
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(4, 4, 740, 390);
+        jLabel7.setBounds(0, 10, 740, 260);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,15 +212,82 @@ public class AlterarProfessor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String codigo = coddi.getText();
+       Connection con = Conexao.AbrirConexao();
+       professorDAO sql = new professorDAO(con);
+       int cod = Integer.parseInt(codigo);
+       
+       if (sql.Testar_Professor(cod) == false){
+           JOptionPane.showMessageDialog(null, "Codigo não encontrado no BANCO", "Equipamento" , 
+                   JOptionPane.ERROR_MESSAGE);
+           Conexao.FecharConexao(con);
+       }
+       if(codigo.equals("")){
+           JOptionPane.showMessageDialog(null, "Digite um Codigo para Atualizar", "Equipamento", 
+                   JOptionPane.WARNING_MESSAGE);
+       }
+              coco.setText("");
+              nome.setText("");
+              email.setText("");
+              cpf.setText("");
+              telef.setText("");
+              
+              end.setText("");
+              
+   
+             InserirDados(cod);
+             coddi.setText("");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String nom = nome.getText();
+        String em = email.getText();
+        String cp = cpf.getText();
+        String tele = telef.getText();
+        String ende = end.getText();
+        int cod = (int) Integer.parseInt(coco.getText());
+       
+        if(nom.equalsIgnoreCase("")){
+            JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos","Cadastro de Livros",JOptionPane.WARNING_MESSAGE);
+        
+        }else{
+           Connection con = Conexao.AbrirConexao();
+           professorDAO sql = new professorDAO(con);
+           professor f = new professor();
+            
+            
+            f.setNome(nom);
+            f.setEmail(em);
+            f.setCpf(cp);
+            f.setTelefone(tele);
+            f.setEndereco(ende);
+            f.setCod(cod);
+            
+            sql.Alterar_Professor(f);
+
+            Conexao.FecharConexao(con);
+
+            nome.setText("");
+            email.setText("");
+            cpf.setText("");
+            telef.setText("");
+            end.setText("");
+            coco.setText("");
+            
+            JOptionPane.showMessageDialog(null,"Inserido Com Sucesso","Mensagem",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,9 +326,15 @@ public class AlterarProfessor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField coco;
+    private javax.swing.JTextField coddi;
+    private javax.swing.JFormattedTextField cpf;
+    private javax.swing.JTextField email;
+    private javax.swing.JTextField end;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -196,12 +342,11 @@ public class AlterarProfessor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField nome;
+    private javax.swing.JFormattedTextField telef;
     // End of variables declaration//GEN-END:variables
 }
